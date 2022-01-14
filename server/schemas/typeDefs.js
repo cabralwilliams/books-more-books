@@ -1,5 +1,5 @@
 //import the gql tagged template function
-import { gql } from 'apollo-server-express';
+const { gql } = require('apollo-server-express');
 
 //saveBook cannot take Book schema as an input - this necessitates the BookDetails input or listing all of the parameters individually
 
@@ -9,6 +9,7 @@ const typeDefs = gql`
         _id: ID
         username: String
         email: String
+        bookCount: Int
         savedBooks: [Book]
     }
 
@@ -18,6 +19,7 @@ const typeDefs = gql`
         image: String
         link: String
         title: String
+        description: String
     }
 
     input BookDetails {
@@ -26,6 +28,7 @@ const typeDefs = gql`
         image: String
         link: String
         title: String
+        description: String
     }
 
     type Auth {
@@ -40,8 +43,8 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addUser(email: String!, password: String!, username: String!): Auth
-        login(email: String!, password: String!): Auth
+        addUser(username: String!, email: String!, password: String!): Auth
+        loginUser(email: String!, password: String!): Auth
         saveBook(bookDetails: BookDetails!): User
         removeBook(bookId: String!): User
     }

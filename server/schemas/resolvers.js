@@ -8,6 +8,7 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
+            //console.log(context);
             if(context.user) {
                 const userData = await User.findOne({ _id: context.user._id }).select('-__v -password');
                 return userData;
@@ -27,15 +28,15 @@ const resolvers = {
         }
     },
     Mutation: {
-        addUser: async (parent, args) => {
+        addUser: async (parent, {username, email, password}) => {
             //args passed are the username, email, and password
-            const user = await User.create(args);
+            const user = await User.create({ username, email, password });
             const token = signToken(user);
-
+            
             //returned object matches structure of Auth object declared in typeDefs
             return { token, user };
         },
-        login: async (parent, { email, password }) => {
+        loginUser: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
             if(!user) {
@@ -57,7 +58,7 @@ const resolvers = {
             if(context.user) {
                 const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: bookDetails } },
+                    { $addToSet: { savedBooks: {...bookDetails} } },
                     { new: true, runValidators: true }
                 );
 
