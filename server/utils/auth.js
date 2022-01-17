@@ -19,7 +19,7 @@ module.exports = {
     }
 
     if (!token) {
-      //return the req object without a user property if no token if no token
+      //return the req object without a user property if no token
       return req;
     }
 
@@ -31,7 +31,7 @@ module.exports = {
       //console.log(`variables: ${JSON.stringify(req.body.variables)}`);
       //console.log(`query: ${req.body.query}`);
     } catch {
-      console.log(token);
+      //console.log(token);
       console.log('Invalid token');
       //return res.status(400).json({ message: 'invalid token!' });
     }
