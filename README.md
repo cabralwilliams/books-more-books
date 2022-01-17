@@ -8,7 +8,7 @@
   This project allows the user to perform searches of the GoogleBooks API for books about given topics.  If the user is registered and logged in, the user can then save searched books for later action.  Finally, if the user wishes to delete a book from her/his saved books list, she/he is able to do so.
   
   ## Link
-  tobeaddedlater
+  [Books - More - Books!](https://vast-crag-35210.herokuapp.com/)
   
   ## Table of Contents
   
