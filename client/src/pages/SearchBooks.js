@@ -23,7 +23,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  const [saveBook] = useMutation(SAVE_BOOK);
+  const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
@@ -41,6 +41,7 @@ const SearchBooks = () => {
       }
 
       const { items } = await response.json();
+      //console.log(items);
 
       const bookData = items.map((book) => ({
         bookId: book.id,
@@ -48,7 +49,9 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        link: book.selfLink
       }));
+      console.log(bookData);
 
       setSearchedBooks(bookData);
       setSearchInput('');
@@ -56,6 +59,11 @@ const SearchBooks = () => {
       console.error(err);
     }
   };
+
+  //Transform book properties into array
+  const bookToArray = bookInput => {
+    return [bookInput.authors, bookInput.bookId, bookInput.image, bookInput.link, bookInput.title, bookInput.description];
+  }
 
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
@@ -70,7 +78,7 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook(bookToSave, token);
+      const response = await saveBook({ variables:  { ...bookToSave } });
 
       if (!response.ok) {
         throw new Error('something went wrong!');

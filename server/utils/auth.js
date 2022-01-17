@@ -8,7 +8,8 @@ module.exports = {
   // function for our authenticated routes
   authMiddleware: function ({ req }) {
     // allows token to be sent via  req.query or headers or body
-    //console.log(req.headers);
+    //console.log(`authorization: ${req.headers.authorization}`);
+    // console.log(req.body);
     let token = req.body.token || req.query.token || req.headers.authorization;
     //console.log(token);
 
@@ -27,7 +28,9 @@ module.exports = {
     try {
       const { data } = jwt.verify(token, secret, { maxAge: expiration });
       req.user = data;
-      console.log(req);
+      //console.log(req);
+      //console.log(`variables: ${JSON.stringify(req.body.variables)}`);
+      //console.log(`query: ${req.body.query}`);
     } catch {
       console.log(token);
       console.log('Invalid token');

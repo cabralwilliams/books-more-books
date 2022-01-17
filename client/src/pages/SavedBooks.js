@@ -10,108 +10,51 @@ import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  //const [userData, setUserData] = useState({});
+  const { data, loading } = useQuery(GET_ME);
 
   //Create the useMutation handler
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+  //const { data, loading } = useQuery(GET_ME);
+  const userData = data?.me || {};
+  console.log(userData);
 
-  // useEffect(() => {
-  //   const getUserData = async () => {
-  //     try {
-  //       const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  //       if (!token) {
-  //         return false;
-  //       }
-
-  //       const response = await getMe(token);
-
-  //       if (!response.ok) {
-  //         throw new Error('something went wrong!');
-  //       }
-
-  //       const user = await response.json();
-  //       setUserData(user);
-  //     } catch (err) {
-  //       console.error(err);
-  //     }
-  //   };
-
-  //   getUserData();
-  // }, [userDataLength]);
-
-  //Check for token validity
-
-  //useQuery instead of useEffect
-  // const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  // if(!token) {
-  //   return(
-  //     <h4>You need to be registered and logged in to see saved books.</h4>
-  //   );
-  // }
-  console.log(Auth.getProfile());
-  console.log(Auth.getProfile().data.username);
-
-  const { data, loading } = useQuery(GET_ME);
-  const meData = data?.me || {};
-  console.log(meData);
-
-  // if(!meData) {
-  //   return <Redirect to="/" />;
-  // };
-
-  setUserData(meData);
+  //setUserData(meData);
   console.log(JSON.stringify(userData));
-
-  //Check to see if token is still valid
-  // try {
-  //   const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  //   if(!token) {
-  //     //Redirect to home page if token has expired or token doesn't exist
-  //     return <Redirect to={`/`} />;
-  //   }
-
-  //   if(Object.keys(meData).length === 0) {
-  //     //Redirect to home page if no user is found
-  //     return <Redirect to={`/`} />;
-  //   }
-  
-  //   setUserData(meData);
-  // } catch(err) {
-  //   console.error(err);
-  // }
   
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    console.log(bookId);
+    console.log(token);
 
     if (!token) {
       return false;
     }
-    const updatedUser = await removeBook({
-      variables: { bookId }
-    });
-
+    
     try {
       //const response = await deleteBook(bookId, token);
       //replace deleteBook with useMutation function
-      
+      // console.log(bookId);
+      // const updatedUser = await removeBook({
+      //   variables: { bookId: bookId }
+      // });
+
+      // console.log(updatedUser);
+      const incomingData = await removeBook({ variables: { bookId: bookId } });
 
       // if (!response.ok) {
       //   throw new Error('something went wrong!');
       // }
-      if(!updatedUser) {
-        throw new Error('Something malfunctioned.');
-      }
+      // if(!updatedUser) {
+      //   console.log('There was a problem, chief.');
+      //   throw new Error('Something malfunctioned.');
+      // }
 
       // const updatedUser = await response.json();
-      setUserData(updatedUser);
+      //userData = { ...updatedUser };
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
     } catch (err) {
@@ -122,10 +65,12 @@ const SavedBooks = () => {
     // if (!userDataLength) {
     //   return <h2>LOADING...</h2>;
     // }
-    if(loading) {
-      return <h2>Your saved books are loading...</h2>;
-    }
+    
   };
+
+  if(loading) {
+    return <h2>Your saved books are loading...</h2>;
+  }
 
   return (
     <>
