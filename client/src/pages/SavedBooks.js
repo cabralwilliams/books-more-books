@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
-import { Redirect } from 'react-router-dom';
 
 import { getMe, deleteBook } from '../utils/API';
 import Auth from '../utils/auth';
@@ -27,47 +26,25 @@ const SavedBooks = () => {
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log(bookId);
-    console.log(token);
-
+    
+    //Do nothing if the user isn't logged in
     if (!token) {
       return false;
     }
     
     try {
-      //const response = await deleteBook(bookId, token);
-      //replace deleteBook with useMutation function
-      // console.log(bookId);
-      // const updatedUser = await removeBook({
-      //   variables: { bookId: bookId }
-      // });
-
-      // console.log(updatedUser);
+      //Remove the book and return the updated user
       const incomingData = await removeBook({ variables: { bookId: bookId } });
-
-      // if (!response.ok) {
-      //   throw new Error('something went wrong!');
-      // }
-      // if(!updatedUser) {
-      //   console.log('There was a problem, chief.');
-      //   throw new Error('Something malfunctioned.');
-      // }
-
-      // const updatedUser = await response.json();
-      //userData = { ...updatedUser };
-      // upon success, remove book's id from localStorage
+      console.log(incomingData);
+      
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
     }
 
-    // if data isn't here yet, say so
-    // if (!userDataLength) {
-    //   return <h2>LOADING...</h2>;
-    // }
-    
   };
 
+  //Notify user if still waiting to load books
   if(loading) {
     return <h2>Your saved books are loading...</h2>;
   }

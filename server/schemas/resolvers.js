@@ -17,15 +17,15 @@ const resolvers = {
             throw new AuthenticationError('User needs to be logged in.');
         },
         //Used for testing purposes
-        users: async () => {
-            return User.find()
-                .select('-__v -password');
-        },
+        // users: async () => {
+        //     return User.find()
+        //         .select('-__v -password');
+        // },
         //Used for testing purposes
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
-                .select('-__v -password');
-        }
+        // user: async (parent, { username }) => {
+        //     return User.findOne({ username })
+        //         .select('-__v -password');
+        // }
     },
     Mutation: {
         addUser: async (parent, {username, email, password}) => {
@@ -56,8 +56,8 @@ const resolvers = {
         },
         saveBook: async (parent, args, context) => {
             if(context.user) {
-                console.log('trying');
-                console.log(args);
+                // console.log('trying to add');
+                // console.log(args);
                 const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
                     { $addToSet: { savedBooks: {...args} } },
@@ -69,12 +69,13 @@ const resolvers = {
             
             throw new AuthenticationError('You need to be logged in to save a book.');
         },
-        removeBook: async (parent, bookId, context) => {
-            console.log(bookId);
+        removeBook: async (parent, args, context) => {
+            // console.log(args.bookId);
             if(context.user) {
+                // console.log('trying to remove');
                 const user = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { savedBooks: { bookId: bookId } }},
+                    { $pull: { savedBooks: { bookId: args.bookId } }},
                     { new: true }
                 );
 

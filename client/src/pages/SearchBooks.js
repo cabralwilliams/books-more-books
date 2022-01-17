@@ -60,11 +60,6 @@ const SearchBooks = () => {
     }
   };
 
-  //Transform book properties into array
-  const bookToArray = bookInput => {
-    return [bookInput.authors, bookInput.bookId, bookInput.image, bookInput.link, bookInput.title, bookInput.description];
-  }
-
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
@@ -78,14 +73,15 @@ const SearchBooks = () => {
     }
 
     try {
-      const response = await saveBook({ variables:  { ...bookToSave } });
+      const updatedUser = await saveBook({ variables:  { ...bookToSave } });
 
-      if (!response.ok) {
+      if (!updatedUser) {
         throw new Error('something went wrong!');
       }
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+      saveBookIds(savedBookIds);
     } catch (err) {
       console.error(err);
     }

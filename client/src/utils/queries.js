@@ -21,19 +21,19 @@ export const GET_ME = gql`
 `;
 
 //Get single user - for testing purposes only
-export const GET_A_USER = gql`
-    query getUser($username: String!) {
-        getUser(username: $username) {
-            _id
-            username
-            email
-            savedBooks {
-                authors
-                bookId
-                image
-                link
-                title
-            }
-        }
-    }
-`;
+// export const GET_A_USER = gql`
+//     query getUser($username: String!) {
+//         getUser(username: $username) {
+//             _id
+//             username
+//             email
+//             savedBooks {
+//                 authors
+//                 bookId
+//                 image
+//                 link
+//                 title
+//             }
+//         }
+//     }
+// `;

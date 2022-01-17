@@ -19,8 +19,7 @@ module.exports = {
     }
 
     if (!token) {
-      //return res.status(400).json({ message: 'You have no token!' });
-      //return the req object if no token
+      //return the req object without a user property if no token if no token
       return req;
     }
 

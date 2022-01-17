@@ -10,9 +10,9 @@ const httpLink = createHttpLink({
   uri: '/graphql'
 });
 
-const sampleToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiY2FicmFsd2lsbGlhbXMiLCJlbWFpbCI6ImNhYnJhbC53aWxsaWFtc0BnbWFpbC5jb20iLCJfaWQiOiI2MWRmNzUyMGQ3ZWI2ZTg1Zjg5ODBiMGYifSwiaWF0IjoxNjQyMTEwNTcwLCJleHAiOjE2NDIxMTc3NzB9.5CmuGFD4iHt-OAJT_WRyRlodT2u8qLu-yC43MZIiFfM`;
+// const sampleToken = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiY2FicmFsd2lsbGlhbXMiLCJlbWFpbCI6ImNhYnJhbC53aWxsaWFtc0BnbWFpbC5jb20iLCJfaWQiOiI2MWRmNzUyMGQ3ZWI2ZTg1Zjg5ODBiMGYifSwiaWF0IjoxNjQyMTEwNTcwLCJleHAiOjE2NDIxMTc3NzB9.5CmuGFD4iHt-OAJT_WRyRlodT2u8qLu-yC43MZIiFfM`;
 //console.log(localStorage.getItem('id_token'));
-const token1 = localStorage.getItem('id_token');
+// const token1 = localStorage.getItem('id_token');
 //console.log(token1);
 
 const authLink = setContext((_, { headers }) => {

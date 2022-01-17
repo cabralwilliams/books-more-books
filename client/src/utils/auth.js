@@ -32,8 +32,10 @@ class AuthService {
     return localStorage.getItem('id_token');
   }
 
-  login(idToken) {
+  login(idToken,user) {
     // Saves user token to localStorage
+    const booksStr = user.savedBooks.map(book => book.bookId);
+    localStorage.setItem('saved_books', JSON.stringify(booksStr));
     localStorage.setItem('id_token', idToken);
     window.location.assign('/');
   }
@@ -41,6 +43,8 @@ class AuthService {
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
+    // Clear savedBookIds from localStorage so that another user can save the book if he/she wishes
+    localStorage.removeItem('saved_books');
     // this will reload the page and reset the state of the application
     window.location.assign('/');
   }

@@ -2,6 +2,7 @@
 const { gql } = require('apollo-server-express');
 
 //saveBook cannot take Book schema as an input - this necessitates the BookDetails input or listing all of the parameters individually
+//Could not get book input type to work properly - used individual parameters instead
 
 //Create typeDefs
 const typeDefs = gql`
@@ -38,8 +39,6 @@ const typeDefs = gql`
 
     type Query {
         me: User
-        users: [User]
-        user(username: String!): User
     }
 
     type Mutation {
